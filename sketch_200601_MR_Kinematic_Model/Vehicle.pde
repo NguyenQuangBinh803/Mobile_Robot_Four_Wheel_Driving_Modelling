@@ -6,6 +6,7 @@ class Vehicle {
 
 
   PVector a;
+  PVector center;
   float angle = 0;
   float len;
 
@@ -30,8 +31,14 @@ class Vehicle {
   PVector rear_right_target = new PVector();
   PVector rear_right= new PVector();
 
+  PVector prev_center = new PVector();
+
+
   Vehicle(float x, float y, float len_, float i) {
     a = new PVector(x, y);
+    center = new PVector(x,y);
+    prev_center = a;
+
     len = len_;
     float init_ang = 0;
     update();
@@ -42,46 +49,52 @@ class Vehicle {
   float follow(float tx, float ty) {
     PVector target = new PVector(tx, ty);
     PVector dir = PVector.sub(target, a);
+    
+    //a = center;
     PVector accel = dir.copy();
-    accel.setMag(accel.mag()/50);
+    accel.setMag(accel.mag()/10);
     angle = dir.heading();
+    print(a.x, a.y);
     a.add(accel);
-    
-    
+    print(a.x, a.y);
     update();
+    
 
     PVector vel_rear_center = PVector.sub(rear_center_target, rear_center);
     vel_rear_center.setMag(vel_rear_center.mag()/10);
     stroke(0, 255, 0);
-    rear_center.add(vel_rear_center);
 
     PVector vel_front_center = PVector.sub(front_center_target, front_center);
     vel_front_center.setMag(vel_front_center.mag()/10);
     stroke(0, 255, 0);
-    front_center.add(vel_front_center);
+
 
     PVector vel_front_left = PVector.sub(front_left_target, front_left);
     vel_front_left.setMag(vel_front_left.mag()/10);
     stroke(0, 255, 0);
-    front_left.add(vel_front_left);
 
     PVector vel_front_right = PVector.sub(front_right_target, front_right);
     vel_front_right.setMag(vel_front_right.mag()/10);
     stroke(0, 255, 0);
-    front_right.add(vel_front_right);
 
     PVector vel_rear_left = PVector.sub(rear_left_target, rear_left);
     vel_rear_left.setMag(vel_rear_left.mag()/10);
     stroke(0, 255, 0);
-    rear_left.add(vel_rear_left);
-
 
     PVector vel_rear_right = PVector.sub(rear_right_target, rear_right);
     vel_rear_right.setMag(vel_rear_right.mag()/10);
     stroke(0, 255, 0);
+
+    println(front_left, front_right);
+
+    rear_center.add(vel_rear_center);
+    front_center.add(vel_front_center);
+    
+    front_left.add(vel_front_left);
+    front_right.add(vel_front_right);
+
+    rear_left.add(vel_rear_left);
     rear_right.add(vel_rear_right);
-
-
     return angle;
   }
 
@@ -153,8 +166,8 @@ class Vehicle {
     strokeWeight(10);
     point(front_center.x, front_center.y);
     point(rear_center.x, rear_center.y);
-    
-    stroke(0,255,0);
+
+    stroke(0, 255, 0);
     point(front_right.x, front_right.y);
     point(front_left.x, front_left.y);
     point(rear_right.x, rear_right.y);
@@ -170,9 +183,11 @@ class Vehicle {
     point(rear_right_target.x, rear_right_target.y);
     //stroke(0,0,255);
     point(rear_left_target.x, rear_left_target.y);
+    
+    point(a.x, a.y);
     //point(h.x, h.y);
     //point(b.x, b.y);
-    print(front_left_target);
+    //print(front_left_target);
 
     //println(PVector.sub(tail, head).mag());
   }

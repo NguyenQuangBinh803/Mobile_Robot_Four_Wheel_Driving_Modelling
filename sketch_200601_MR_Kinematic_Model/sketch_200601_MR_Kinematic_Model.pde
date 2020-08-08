@@ -20,8 +20,11 @@ float mouse_x;
 float mouse_y;
 void setup() {
   size(800, 800);
-  int center_x = width/2;
-  int center_y = height/2;
+  //int center_x = width/2;
+  //int center_y = height/2;
+
+  int center_x = 0;
+  int center_y = 0;
 
 
   //Initailize particle for each wheel points
@@ -46,8 +49,8 @@ float step_x = 0;
 float step_y = 0;
 PVector prev_right = new PVector();
 PVector prev_left = new PVector();
-float mousex = 0;
-float mousey = 0;
+float mousex = width/2;
+float mousey = width/2;
 
 void draw() {
   background(0);
